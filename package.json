@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/softwarica-github/web-api-backend-repository-utsavstha/issues"
   },
-  "homepage": "https://github.com/softwarica-github/web-api-backend-repository-utsavstha#readme"
+  "homepage": "https://github.com/softwarica-github/web-api-backend-repository-utsavstha#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
