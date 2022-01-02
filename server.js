@@ -12,13 +12,13 @@ process.on('uncaughtException', err => {
 
 const app = require('./app');
 
-const database = process.env.DATABASE.replace('<PASSWORD>', process.env.DATABASE_PASSWORD);
-
+const database = process.env.DATABASE.replace('<password>', process.env.DATABASE_PASSWORD);
+console.log(database);
 // Connect the database
 mongoose.connect(database, {
     useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false
+    // useCreateIndex: true,
+    // useFindAndModify: false
 }).then(con => {
     console.log('DB connection Successfully!');
 });
@@ -32,7 +32,7 @@ app.listen(port, () => {
 process.on('unhandledRejection', err => {
     console.log('UNHANDLED REJECTION!!!  shutting down ...');
     console.log(err.name, err.message);
-    server.close(() => {
-        process.exit(1);
-    });
+    // server.close(() => {
+    //     process.exit(1);
+    // });
 });
