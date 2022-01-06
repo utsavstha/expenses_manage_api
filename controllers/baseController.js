@@ -1,6 +1,7 @@
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
 
+//Base controller class 
 exports.deleteOne = Model => async (req, res, next) => {
     try {
         const doc = await Model.findByIdAndDelete(req.params.id);
