@@ -18,8 +18,16 @@ const ticketSchema = new mongoose.Schema({
     assigned_user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    classification: {
+        type: Schema.Types.ObjectId,
+        ref: 'Classification'
+    },
+    can_staff_complete: {
+        type: Boolean,
+        default: false,
+        select: false,
     }
-
 
 });
 
@@ -29,10 +37,10 @@ priority = models.ForeignKey(Priority, on_delete = models.CASCADE)
 // state = models.IntegerField(default=0)
 board = models.ManyToManyField(Board)
 // assigned_group = models.ManyToManyField(Group)
-assigned_user = models.ManyToManyField(
-    related_name = 'assigned_user', to = Account)
+// assigned_user = models.ManyToManyField(
+// related_name = 'assigned_user', to = Account)
 ticket_supervisors = models.ManyToManyField(
     related_name = 'ticket_supervisors', to = Account)
-classification = models.ForeignKey(
-    Classification, on_delete = models.CASCADE)
+// classification = models.ForeignKey(
+// Classification, on_delete = models.CASCADE)
 can_staff_complete = models.BooleanField()

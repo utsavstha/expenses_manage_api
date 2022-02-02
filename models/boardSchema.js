@@ -4,7 +4,7 @@ const validator = require("validator");
 const boardSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: [true, "Please enter Category name"],
+        required: [true, "Please enter Board name"],
     }
 });
 
