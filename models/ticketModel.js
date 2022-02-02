@@ -19,6 +19,14 @@ const ticketSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    priority: {
+        type: Schema.Types.ObjectId,
+        ref: 'Priority'
+    },
+    board: {
+        type: Schema.Types.ObjectId,
+        ref: 'Board'
+    },
     classification: {
         type: Schema.Types.ObjectId,
         ref: 'Classification'
@@ -30,17 +38,5 @@ const ticketSchema = new mongoose.Schema({
     }
 
 });
-
-// title = models.CharField(max_length=200, null=True)
-// description = models.CharField(max_length=2000, null=True)
-priority = models.ForeignKey(Priority, on_delete = models.CASCADE)
-// state = models.IntegerField(default=0)
-board = models.ManyToManyField(Board)
-// assigned_group = models.ManyToManyField(Group)
-// assigned_user = models.ManyToManyField(
-// related_name = 'assigned_user', to = Account)
-ticket_supervisors = models.ManyToManyField(
-    related_name = 'ticket_supervisors', to = Account)
-// classification = models.ForeignKey(
-// Classification, on_delete = models.CASCADE)
-can_staff_complete = models.BooleanField()
+const Ticket = mongoose.model("Ticket", ticketSchema);
+module.exports = Ticket;
