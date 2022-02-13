@@ -21,11 +21,6 @@ router.use(authController.protect);
 router.use(authController.restrictTo("admin"));
 router.post("/create", upload.single("file"), TicketController.createTicket);
 router.patch("/moveTicket/:id", TicketController.moveTicket);
-// router.patch(
-//   "/update/:id",
-//   upload.single("file"),
-//   TicketController.updateTicket
-// );
 router.route("/ticketForBoard/:id").get(TicketController.getTicketForBoard);
 
 router.route("/").get(TicketController.getTickets);
