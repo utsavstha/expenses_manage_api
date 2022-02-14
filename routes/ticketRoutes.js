@@ -16,14 +16,14 @@ const upload = multer({ storage });
 
 // Protect all routes after this middleware
 router.use(authController.protect);
+router.route("/").get(TicketController.getTickets);
+router.patch("/moveTicket/:id", TicketController.moveTicket);
 
 // Only admin have permission to access for the below APIs
 router.use(authController.restrictTo("admin"));
-router.post("/create", upload.single("file"), TicketController.createTicket);
-router.patch("/moveTicket/:id", TicketController.moveTicket);
-router.route("/ticketForBoard/:id").get(TicketController.getTicketForBoard);
 
-router.route("/").get(TicketController.getTickets);
+router.post("/create", upload.single("file"), TicketController.createTicket);
+router.route("/ticketForBoard/:id").get(TicketController.getTicketForBoard);
 
 router
   .route("/:id")

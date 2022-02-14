@@ -9,6 +9,7 @@ const cors = require("cors");
 const path = require("path");
 
 const userRoutes = require("./routes/userRoutes");
+const ticketCommentRoutes = require("./routes/ticketCommentRoutes");
 const boardRoutes = require("./routes/boardRoutes");
 const classificationRoutes = require("./routes/classificationRoutes");
 const priorityRoutes = require("./routes/priorityRoutes");
@@ -62,6 +63,7 @@ app.use("/api/v1/board", boardRoutes);
 app.use("/api/v1/classification", classificationRoutes);
 app.use("/api/v1/priority", priorityRoutes);
 app.use("/api/v1/ticket", ticketRoutes);
+app.use("/api/v1/ticketComment", ticketCommentRoutes);
 
 // handle undefined Routes
 app.use("*", (req, res, next) => {
