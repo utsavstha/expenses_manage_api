@@ -16,29 +16,30 @@ describe("User Schema test anything", () => {
   it("Add user test", async () => {
     const user = {
       name: "Utsav Shrestha",
-      email: "utzavshr@gmail.com",
+      email: "utzavshr1@gmail.com",
       password: "111111",
       passwordConfirm: "111111",
       role: "admin",
     };
 
     return await User.create(user).then((user_ret) => {
-      expect(user_ret.email).toEqual("utzavshr@gmail.com");
+      expect(user_ret.email).toEqual("utzavshr1@gmail.com");
     });
   });
 
   it("to test the update", async () => {
     return await User.findOneAndUpdate(
-      { email: "utzavshr@gmail.com" },
+      { email: "utzavshr1@gmail.com" },
       { $set: { name: "Bishal Shrestha" } },
       { new: true }
     ).then((user_ret) => {
       expect(user_ret.name).toEqual("Bishal Shrestha");
     });
   });
+
   //   the code below is for delete testing
   it("to test the delete user is working or not", async () => {
     const status = await User.findOneAndDelete({}, { sort: { _id: -1 } });
-    expect(status.email).toBe("utzavshr@gmail.com");
+    expect(status.email).toBe("utzavshr1@gmail.com");
   });
 });
