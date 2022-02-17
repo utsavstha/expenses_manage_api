@@ -2,7 +2,7 @@ const { promisify } = require("util");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const AppError = require("../utils/appError");
-
+const sendEmail = require("../utils/sendEmail");
 const createToken = (id) => {
   return jwt.sign(
     {
@@ -13,6 +13,63 @@ const createToken = (id) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     }
   );
+};
+
+exports.reset = async (req, res, next) => {
+  try {
+    const decode = await promisify(jwt.verify)(
+      req.params.token,
+      process.env.JWT_SECRET
+    );
+
+    // 3) check if the user is exist (not deleted)
+    const user = await User.findById(decode.id);
+    if (!user) {
+      return next(
+        new AppError(401, "fail", "This user is no longer exist"),
+        req,
+        res,
+        next
+      );
+    }
+
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.password;
+    await user.save();
+    res.status(200).json({
+      status: "success",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.resetToken = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return next(
+        new AppError(404, "fail", "Please provide email"),
+        req,
+        res,
+        next
+      );
+    }
+    const usr = await User.findOne({
+      email,
+    });
+
+    const token = createToken(usr.id);
+
+    const link = `http://localhost:3001/resetpassword/${token}`;
+
+    await sendEmail(usr.email, "Password reset", link);
+    res.status(200).json({
+      status: "success",
+    });
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.login = async (req, res, next) => {
