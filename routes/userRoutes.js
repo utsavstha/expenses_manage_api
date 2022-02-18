@@ -7,11 +7,11 @@ router.post("/login", authController.login);
 router.post("/signup", authController.signup);
 router.post("/resetToken", authController.resetToken);
 router.post("/reset/:token", authController.reset);
+
 // Protect all routes after this middleware
 router.use(authController.protect);
 
 router.delete("/deleteMe", userController.deleteMe);
-
 // Only admin have permission to access for the below APIs
 router.use(authController.restrictTo("admin"));
 
