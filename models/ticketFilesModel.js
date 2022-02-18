@@ -11,5 +11,6 @@ const ticketFilesSchema = new mongoose.Schema({
     ref: "Ticket",
   },
 });
+
 const TicketFiles = mongoose.model("TicketFiles", ticketFilesSchema);
 module.exports = TicketFiles;
