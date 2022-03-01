@@ -9,11 +9,8 @@ const cors = require("cors");
 const path = require("path");
 
 const userRoutes = require("./routes/userRoutes");
-const ticketCommentRoutes = require("./routes/ticketCommentRoutes");
-const boardRoutes = require("./routes/boardRoutes");
-const classificationRoutes = require("./routes/classificationRoutes");
-const priorityRoutes = require("./routes/priorityRoutes");
-const ticketRoutes = require("./routes/ticketRoutes");
+const expenseRoute = require("./routes/expenseRoute");
+const budgetRoute = require("./routes/budgetRoute");
 const globalErrHandler = require("./controllers/errorController");
 const AppError = require("./utils/appError");
 const app = express();
@@ -59,11 +56,8 @@ app.use(hpp());
 app.use("/public", express.static(__dirname + "/public"));
 
 app.use("/api/v1/users", userRoutes);
-app.use("/api/v1/board", boardRoutes);
-app.use("/api/v1/classification", classificationRoutes);
-app.use("/api/v1/priority", priorityRoutes);
-app.use("/api/v1/ticket", ticketRoutes);
-app.use("/api/v1/ticketComment", ticketCommentRoutes);
+app.use("/api/v1/expense", expenseRoute);
+app.use("/api/v1/budget", budgetRoute);
 
 // handle undefined Routes
 app.use("*", (req, res, next) => {

@@ -3,6 +3,12 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const AppError = require("../utils/appError");
 const sendEmail = require("../utils/sendEmail");
+const {
+  sendCode,
+  verifyCode,
+  verifyToken,
+  verifyBoth,
+} = require("email-verification-code");
 const createToken = (id) => {
   return jwt.sign(
     {
@@ -13,6 +19,75 @@ const createToken = (id) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     }
   );
+};
+
+exports.forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({
+      email,
+    });
+
+    if (!user) {
+      return next(new AppError(401, "fail", "User not found"), req, res, next);
+    }
+
+    const data = {
+      smtpInfo: {
+        host: "smtp.gmail.com",
+        port: 587,
+        user: "car.dealership.help.desk@gmail.com",
+        pass: "car.dealership321",
+      },
+      company: {
+        name: "Expense Manager",
+        email: "car.dealership.help.desk@gmail.com",
+      },
+      mailInfo: {
+        emailReceiver: email,
+        subject: "Code Confirmation",
+        html(code, token) {
+          return `<p>The Confirmation Code is: ${code}</p>`;
+        },
+      },
+    };
+
+    sendCode(data);
+    res.status(200).json({
+      status: "success",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.verifyCode = async (req, res, next) => {
+  try {
+    const { email, code, password } = req.body;
+
+    const user = await User.findOne({
+      email,
+    });
+
+    if (!user) {
+      return next(new AppError(401, "fail", "User not found"), req, res, next);
+    }
+
+    const response = verifyCode(email, code);
+    if (!response.error) {
+      user.password = req.body.password;
+      user.passwordConfirm = req.body.password;
+      await user.save();
+      res.status(200).json({
+        status: "success",
+      });
+    } else {
+      return next(new AppError(401, "fail", "Invalid code"), req, res, next);
+    }
+  } catch (err) {
+    next(err);
+  }
 };
 
 exports.reset = async (req, res, next) => {
